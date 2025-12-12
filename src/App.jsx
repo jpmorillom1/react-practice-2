@@ -1,19 +1,16 @@
 import { useState } from "react";
 import "./App.css";
-import DataTable from "./DataTable.jsx";
 import EnhancedTable from "./EnhancedTable.jsx";
-import InitialFilters from "./InitialFilters.jsx";
 import InputBase from "./InputBase.jsx";
 import Buttons from "./Buttons.jsx";
+
 function App() {
-  const [count, setCount] = useState(0);
+  const [searchTerm, setSearchTerm] = useState("");
 
   return (
     <>
-      {/* <DataTable /> */}
-
-      <InputBase />
-      <EnhancedTable />
+      <InputBase value={searchTerm} onChange={setSearchTerm} />
+      <EnhancedTable searchTerm={searchTerm} />
       <Buttons />
     </>
   );
