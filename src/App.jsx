@@ -3,6 +3,7 @@ import "./App.css";
 import EnhancedTable from "./EnhancedTable.jsx";
 import InputBase from "./InputBase.jsx";
 import Buttons from "./Buttons.jsx";
+import AddForm from "./AddForm.jsx";
 
 function createData(id, name, age) {
   return { id, name, age };
@@ -28,11 +29,22 @@ function App() {
   const [searchTerm, setSearchTerm] = useState("");
   const [rows, setRows] = useState(initialRows);
   const [selected, setSelected] = useState([]);
+  const [showAddForm, setShowAddForm] = useState(false);
 
   const handleDelete = () => {
     setRows((prev) => prev.filter((r) => !selected.includes(r.id)));
     setSelected([]);
   };
+
+  const handleAdd = ({ name, age }) => {
+    setRows((prev) => {
+      const maxId = prev.length ? Math.max(...prev.map((r) => r.id)) : 0;
+      return [...prev, { id: maxId + 1, name, age: Number(age) }];
+    });
+    setShowAddForm(false);
+  };
+
+  const handleToggleAdd = () => setShowAddForm((s) => !s);
 
   return (
     <>
@@ -43,7 +55,17 @@ function App() {
         selected={selected}
         setSelected={setSelected}
       />
-      <Buttons onDelete={handleDelete} disabled={selected.length === 0} />
+      <AddForm
+        visible={showAddForm}
+        onAdd={handleAdd}
+        onClose={() => setShowAddForm(false)}
+      />
+
+      <Buttons
+        onDelete={handleDelete}
+        disabled={selected.length === 0}
+        onToggleAdd={handleToggleAdd}
+      />
     </>
   );
 }

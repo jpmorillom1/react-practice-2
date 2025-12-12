@@ -14,11 +14,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
-// removed unused FormControlLabel and Switch
-// toolbar icons removed as Delete is handled by the bottom button
 import { visuallyHidden } from "@mui/utils";
-
-// rows are provided by parent via props
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -137,11 +133,8 @@ function EnhancedTableToolbar(props) {
           variant="h6"
           id="tableTitle"
           component="div"
-        >
-          Nutrition
-        </Typography>
+        ></Typography>
       )}
-      {/* toolbar icons removed */}
     </Toolbar>
   );
 }
