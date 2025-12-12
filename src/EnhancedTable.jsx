@@ -14,33 +14,11 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Switch from "@mui/material/Switch";
-import DeleteIcon from "@mui/icons-material/Delete";
-import FilterListIcon from "@mui/icons-material/FilterList";
+// removed unused FormControlLabel and Switch
+// toolbar icons removed as Delete is handled by the bottom button
 import { visuallyHidden } from "@mui/utils";
 
-function createData(id, name, age) {
-  return { id, name, age };
-}
-
-const rows = [
-  createData(1, "Cupcake", 5),
-  createData(2, "Donut", 8),
-  createData(3, "Eclair", 7),
-  createData(4, "Frozen yoghurt", 4),
-  createData(5, "Gingerbread", 9),
-  createData(6, "Honeycomb", 6),
-  createData(7, "Ice cream sandwich", 3),
-  createData(8, "Jelly Bean", 2),
-  createData(9, "KitKat", 10),
-  createData(10, "Lollipop", 1),
-  createData(11, "Marshmallow", 11),
-  createData(12, "Nougat", 12),
-  createData(13, "Oreo", 13),
-];
+// rows are provided by parent via props
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -163,19 +141,7 @@ function EnhancedTableToolbar(props) {
           Nutrition
         </Typography>
       )}
-      {numSelected > 0 ? (
-        <Tooltip title="Delete">
-          <IconButton>
-            <DeleteIcon />
-          </IconButton>
-        </Tooltip>
-      ) : (
-        <Tooltip title="Filter list">
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Tooltip>
-      )}
+      {/* toolbar icons removed */}
     </Toolbar>
   );
 }
@@ -184,12 +150,15 @@ EnhancedTableToolbar.propTypes = {
   numSelected: PropTypes.number.isRequired,
 };
 
-export default function EnhancedTable({ searchTerm = "" }) {
+export default function EnhancedTable({
+  searchTerm = "",
+  rows,
+  selected,
+  setSelected,
+}) {
   const [order, setOrder] = React.useState("asc");
   const [orderBy, setOrderBy] = React.useState("age");
-  const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(5);
 
   const handleRequestSort = (event, property) => {
@@ -235,15 +204,23 @@ export default function EnhancedTable({ searchTerm = "" }) {
     setPage(0);
   };
 
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
-
   const filteredRows = React.useMemo(() => {
     const q = (searchTerm || "").toString().trim().toLowerCase();
     if (!q) return rows;
     return rows.filter((r) => r.name.toLowerCase().includes(q));
-  }, [searchTerm]);
+  }, [searchTerm, rows]);
+
+  React.useEffect(() => {
+    if (page > 0) {
+      const maxPage = Math.max(
+        0,
+        Math.ceil(filteredRows.length / rowsPerPage) - 1
+      );
+      if (page > maxPage) {
+        setPage(maxPage);
+      }
+    }
+  }, [filteredRows, page, rowsPerPage]);
 
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - filteredRows.length) : 0;
@@ -264,7 +241,7 @@ export default function EnhancedTable({ searchTerm = "" }) {
           <Table
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
-            size={dense ? "small" : "medium"}
+            size="medium"
           >
             <EnhancedTableHead
               numSelected={selected.length}
@@ -308,11 +285,7 @@ export default function EnhancedTable({ searchTerm = "" }) {
                 );
               })}
               {emptyRows > 0 && (
-                <TableRow
-                  style={{
-                    height: (dense ? 33 : 53) * emptyRows,
-                  }}
-                >
+                <TableRow style={{ height: 53 * emptyRows }}>
                   <TableCell colSpan={4} />
                 </TableRow>
               )}
