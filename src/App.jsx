@@ -10,19 +10,20 @@ function createData(id, name, age) {
 }
 
 const initialRows = [
-  createData(1, "Cupcake", 5),
-  createData(2, "Donut", 8),
-  createData(3, "Eclair", 7),
-  createData(4, "Frozen yoghurt", 4),
-  createData(5, "Gingerbread", 9),
-  createData(6, "Honeycomb", 6),
-  createData(7, "Ice cream sandwich", 3),
-  createData(8, "Jelly Bean", 2),
-  createData(9, "KitKat", 10),
-  createData(10, "Lollipop", 1),
-  createData(11, "Marshmallow", 11),
-  createData(12, "Nougat", 12),
-  createData(13, "Oreo", 13),
+  createData(1, "Luis Gonzalo Achig Carcelen", 24),
+  createData(2, "Jessiel Josue Chasiguano Santin", 22),
+  createData(3, "Bryan Fabricio Chileno Agualongo", 23),
+  createData(4, "Kleber Alejandro Chiliquinga Lara", 25),
+  createData(5, "Kenny Israel Cisneros Calderon", 22),
+  createData(6, "Davinson Mayer Diaz Tapia", 24),
+  createData(7, "Juan Pablo Morillo Macias", 22),
+  createData(8, "Gissela Dayana Muzo Anchapaxi", 21),
+  createData(9, "Abel Eduardo Navarrete Giler", 25),
+  createData(10, "Liz Daisy Pillajo Cabrera", 20),
+  createData(11, "Joseph Alexander Ponce Naranjo", 24),
+  createData(12, "Rodrigo Javier Saransig Briones", 23),
+  createData(13, "Alex Armando Tituana Ushina", 22),
+  createData(14, "Jonathan Rolando Villarreal Cardenas", 25),
 ];
 
 function App() {
